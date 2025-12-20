@@ -17,7 +17,7 @@ Sensors: Integrated IMU for high-frequency motion information.
 
 🚀 Key Features & Research
 
-1. Multimodal Semantic Segmentation
+ 1.Multimodal Semantic Segmentation
 
   We utilize RGB-D fusion architectures like ESANet and MIPANet to classify every pixel into meaningful categories (traversable vs. non-traversable).
 
@@ -25,7 +25,7 @@ Sensors: Integrated IMU for high-frequency motion information.
 
   Results: Achieved a Mean Intersection Over Union (mIoU) of 92.6% on a binary dataset, outperforming the original MIPANet.
 
-2. Path Planning Algorithms
+ 2.Path Planning Algorithms
  
   Explored both global and local planning approaches to generate collision-free trajectories:
 
@@ -33,7 +33,7 @@ Sensors: Integrated IMU for high-frequency motion information.
 
   Local Planners: Potential Field Method, Dynamic Window Approach (DWA), and Timed Elastic Band (TEB) for reactive obstacle avoidance.
 
-3. Dataset Generation
+ 3.Dataset Generation
 
   Manually labeled over 800 images using LabelMe.
 
