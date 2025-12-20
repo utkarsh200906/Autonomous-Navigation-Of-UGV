@@ -9,7 +9,7 @@ The project aims to achieve safe and efficient autonomous navigation by integrat
 
 Platform: Clearpath Husky A200 (Rugged differential-drive UGV).
 
-Compute: NVIDIA Jetson AGX (ARMv8 8-core processor) for real-time processing.
+Computer: NVIDIA Jetson AGX (ARMv8 8-core processor) for real-time processing.
 
 Perception: Intel RealSense D455 RGB-D camera.
 
