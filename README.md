@@ -1,5 +1,5 @@
 # Autonomous UGV Navigation via Enhanced RGB-D Semantic Segmentation
-**Undergraduate Research Project  | Indian Institute of Technology, Kanpur  | **Mentor:** Prof. Tushar Sandhan | **Author:** Utkarsh Sawarn  
+Undergraduate Research Project  | Indian Institute of Technology, Kanpur  | **Mentor:** Prof. Tushar Sandhan | **Author:** Utkarsh Sawarn  
 
 ---
 
