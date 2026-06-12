@@ -1,47 +1,47 @@
-# Autonomous-Navigation-Of-UGV
-Under Graduate Project under Prof. Tushar Sandhan
+# Autonomous UGV Navigation via Enhanced RGB-D Semantic Segmentation
+**Undergraduate Research Project  | Indian Institute of Technology, Kanpur  | **Mentor:** Prof. Tushar Sandhan | **Author:** Utkarsh Sawarn  
 
-📌 Project Overview
+---
 
-The project aims to achieve safe and efficient autonomous navigation by integrating advanced perception and planning techniques. Key activities include the manual generation of a custom RGB-D dataset, the development of architectural refinements for multimodal semantic segmentation, and the hardware maintenance of a rugged all-terrain UGV.
+## 📌 Project Architecture & Objective
+The goal of this project is to implement robust autonomous navigation on an all-terrain Unmanned Ground Vehicle (UGV) via model-based path planning. The primary bottleneck is translating multimodal environmental inputs (RGB + Depth) into high-fidelity binary semantic masks (Traversable vs. Non-Traversable space) to feed downstream trajectory generation stacks.
+---
 
-🛠 Hardware Stack
+## 🚀 Core Technical Contributions
 
-Platform: Clearpath Husky A200 (Rugged differential-drive UGV).
+### 1. Architectural Optimization: Residual Cross-Modal Attention ($KVQ$)
+To resolve spatial boundaries more cleanly than native multi-stream architectures, I engineered a mathematical modification to the **Multimodal Interaction Module (MIM)** inside **MIPANet**:
+* **The Realignment:** I refactored the attention projection pipeline by altering the Query ($Q$), Key ($K$), and Value ($V$) mappings. RGB spatial context acts as the Query ($Q_{rgb}$), while structural depth maps dictate the Keys ($K_{dep}$) and Values ($V_{rgb}$). The inverse mapping is processed in parallel for the depth stream.
+* **Residual Fusion:** Integrated a direct skip connection to add the original raw feature streams back into the attention outputs:
+  $$\text{Output} = Q_{rgb}K_{dep}^{T}V_{rgb} + Q_{dep}K_{rgb}^{T}V_{dep} + V_{rgb} + V_{dep}$$
+* **Quantifiable Impact:** Trained and benchmarked the architecture on a binary outdoor traversability dataset, achieving a **92.6% Mean Intersection Over Union (mIoU)**, directly outperforming the baseline MIPANet paper model (91.0%).
 
-Computer: NVIDIA Jetson AGX (ARMv8 8-core processor) for real-time processing.
+### 2. Dataset Engineering & Sensor Validation Traps
+* **Target Dataset Generation:** Curated, synchronized, and manually pixel-labeled **800+ RGB-D outdoor field scenes** using `LabelMe`, parsing raw JSON annotations into structured RGB, depth, and target label arrays via Python automation.
+* **Active IR Stereo Failure Analysis:** Identified a critical edge-case failure mode where bright ambient solar radiation saturated the Intel RealSense D455's active IR sensors, causing severe depth map holes and stereo-matching fragmentation in outdoor environments. Navigated this constraint by shifting validation weights to the RGB stream under solar interference.
 
-Perception: Intel RealSense D455 RGB-D camera.
+### 3. Industrial Peer Review & Academic Verification
+* Selected by the project advisor to map and resolve detailed criticism raised by **IEEE Peer Reviewers** for the learning-based diffusion path-planning paper *'Neural PathLite'*. 
+* Co-authored literature revisions by adding comprehensive ablation studies isolating lightweight compute efficiencies, extending comparative state-of-the-art citations in the Related Work sections, and documenting systemic model failure case analyses.
 
-Sensors: Integrated IMU for high-frequency motion information.
+---
 
-🚀 Key Features & Research
+## 🛠️ Compute & Hardware Field Infrastructure
 
- 1.Multimodal Semantic Segmentation
+* **Mobility Base Platform:** Clearpath Husky A200 (Rugged, heavy-duty differential-drive all-terrain research UGV).
+* **Onboard Edge Compute:** NVIDIA Jetson AGX (ARMv8 8-Core CPU + Volta GPU Architecture) running real-time multimodal perception layers.
+* **Sensor Suite Payload:** Intel RealSense D455 RGB-D long-range stereo depth camera + high-frequency internal 6-DoF IMU.
 
-  We utilize RGB-D fusion architectures like ESANet and MIPANet to classify every pixel into meaningful categories (traversable vs. non-traversable).
+---
 
-  Proposed Refinement: Modified the Multimodal Interaction Module (MIM) in MIPANet to use cross-modal attention with residual fusion.
+## 🔧 Applied Mechanical & Power Systems Engineering
 
-  Results: Achieved a Mean Intersection Over Union (mIoU) of 92.6% on a binary dataset, outperforming the original MIPANet.
+* **Power Delivery Retrofit:** Diagnosed battery degradation and short operating cycles on the experimental chassis. Re-engineered the core power distribution bus by combining **two 12V Sealed Lead-Acid (SLA) batteries in a series configuration** to fulfill the high-current 24V/12Ahr demand profile under maximum stall torque load conditions.
+* **CAD & Additive Manufacturing:** Addressed a severe physical packaging conflict when the custom dual-battery assembly exceeded the internal compartment height by 1mm. Form-modeled a structural retention casing in **Autodesk Fusion 360** and fabricated a physical prototype on an **Ender 3D printer** to securely mount and stabilize the secondary battery block on the exterior upper frame plate under active driving vibrations.
 
- 2.Path Planning Algorithms
- 
-  Explored both global and local planning approaches to generate collision-free trajectories:
+---
 
-  Global Planners: Dijkstra's, A*, RRT, and RRT* for optimal full-path computation.
+## 💻 Algorithmic Implementations Analysed
 
-  Local Planners: Potential Field Method, Dynamic Window Approach (DWA), and Timed Elastic Band (TEB) for reactive obstacle avoidance.
-
- 3.Dataset Generation
-
-  Manually labeled over 800 images using LabelMe.
-
-  Captured and processed synchronized RGB and depth information specifically for robotics environments.
-
-🔧 Hardware Maintenance & Engineering
-
-  Battery Replacement: Upgraded the Husky A200 power system by placing two 12V SLA batteries in series to meet the 24V requirement.
-
-  3D Modeling: Designed a custom battery mount using Fusion 360 and an Ender 3D printer to secure hardware despite internal space constraints.
-
+* **Global Path Planners Studied:** Dijkstra's Algorithm (uniform graph exploration), A* (admissible heuristic cost optimization), RRT, and Asymptotically Optimal RRT* (tree-rewiring path refinement).
+* **Local Reactive Planners Studied:** Artificial Potential Fields (Attractive/Repulsive vector summation), Dynamic Window Approach (DWA velocity-space search constraints), and Timed Elastic Band (TEB non-linear multi-objective optimization).
